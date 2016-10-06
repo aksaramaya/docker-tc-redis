@@ -1,7 +1,13 @@
 FROM aksaramaya/tc
 
-# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG=C.UTF-8 LC_ALL=C
+ENV SRC="."
+ENV ETC="/etc"
+ENV WORK="/tmp"
+
+WORKDIR $WORK
+COPY $SRC/redis.conf $ETC
+COPY $SRC/entrypoint.sh /entrypoint.sh
 
 RUN tce-load -wic gnupg curl \
     && rm -rf /tmp/tce/optional/*
@@ -69,6 +75,5 @@ RUN tce-load -wic \
         sudo /sbin/ldconfig \
         rm -rf /tmp/tce/optional/* \
 
-USER root
-
-CMD ["redis-server"]
+WORKDIR $HOME
+ENTRYPOINT ["/entrypoint.sh"]
