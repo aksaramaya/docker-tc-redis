@@ -15,7 +15,7 @@ make clean
 Docker image
 
 ```
-docker pull aksaramaya/tc-gcc
+docker run -d -p 6379:6379 -it aksaramaya/tc-redis
 ```
 
 ## License
